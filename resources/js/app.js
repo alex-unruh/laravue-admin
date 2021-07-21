@@ -9,7 +9,7 @@ import { InertiaProgress } from "@inertiajs/progress";
 import "prismjs/themes/prism-coy.css";
 import "@/assets/layout/layout.scss";
 import "@/assets/layout/flags/flags.css";
-import "primevue/resources/themes/saga-blue/theme.css";
+import "primevue/resources/themes/arya-purple/theme.css";
 import "primevue/resources/primevue.min.css";
 import "primeflex/primeflex.css";
 import "primeicons/primeicons.css";

@@ -13,5 +13,7 @@
 </script>
 
 <style scoped>
-
+  .layout-footer{
+    text-align: center
+  }
 </style>

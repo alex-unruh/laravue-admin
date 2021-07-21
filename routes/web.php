@@ -4,8 +4,12 @@ use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+Route::get('/info', function () {
+  return view('welcome');
+});
+
 // Dashboard
-Route::get('/', function(){
+Route::get('/', function () {
   return Inertia::render('Dashboard');
 })->name('dashboard');
 

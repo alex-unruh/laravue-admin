@@ -1,12 +1,12 @@
 <template>
   <div :class="containerClass" @click="onWrapperClick">
-    <AppTopBar @menu-toggle="onMenuToggle" />
+    <AppTopBar @menu-toggle="onMenuToggle" @toggle-configurator="onToggleConfigurator" />
 
     <transition name="layout-sidebar">
       <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
         <div class="layout-logo">
           <inertia-link href="/">
-            <img alt="Logo" :src="logo" />
+            <img alt="Logo" :src="logo" style="width: 80%" />
           </inertia-link>
         </div>
 
@@ -42,7 +42,7 @@ export default {
       mobileMenuActive: false,
       menu: [
         { label: "Dashboard", icon: "pi pi-fw pi-home", to: "dashboard" },
-        { label: "Usuários", icon: "pi pi-fw pi-users", to: "users" }
+        { label: "Usuários", icon: "pi pi-fw pi-users", to: "users" },
       ],
     };
   },
@@ -90,6 +90,9 @@ export default {
     onLayoutColorChange(layoutColorMode) {
       this.layoutColorMode = layoutColorMode;
     },
+    onToggleConfigurator(event){
+      this.$emit('ToggleConfigurator', event);
+    },
     addClass(element, className) {
       if (element.classList) element.classList.add(className);
       else element.className += " " + className;
@@ -136,7 +139,7 @@ export default {
       ];
     },
     logo() {
-      return this.layoutColorMode === "dark" ? "assets/layout/images/logo-white.svg" : "assets/layout/images/logo.svg";
+      return "assets/layout/images/unruh.png";
     },
   },
   beforeUpdate() {

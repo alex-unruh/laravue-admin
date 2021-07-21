@@ -95,6 +95,9 @@
 				else
 					this.unbindOutsideClickListener();
 			},
+      onToggleConfigurator(event){
+        this.toggleConfigurator(event);
+      },
 			hideConfigurator(event) {
 				this.active = false;
 				this.unbindOutsideClickListener();
