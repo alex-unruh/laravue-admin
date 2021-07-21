@@ -3,11 +3,12 @@
     <ul>
       <li class="p-breadcrumb-home">
         <inertia-link :href="route('dashboard')" class="p-menuitem-link">
-          <i class="pi pi-fw pi-home"></i><span class="p-menuitem-text">Dashboard</span>
+          <i class="pi pi-fw pi-home"></i>
         </inertia-link>
       </li>
-      <li v-if="model" v-for="(item, index) in model" :key="index" class="p-breadcrumb-chevron pi pi-chevron-right">
-        <inertia-link :href="route(item.target)" class="p-menuitem-link">
+      <li v-if="model.length > 0" v-for="(item, index) in model" :key="index" class="p-breadcrumb-chevron">
+        <inertia-link v-if="item.route" :href="route(item.route)" class="p-menuitem-link">
+          <i class="pi pi-chevron-right"></i>
           <i v-if="item.icon" :class="item.icon"></i><span class="p-menuitem-text">{{ item.label }}</span>
         </inertia-link>
       </li>
@@ -18,7 +19,7 @@
 <script>
 export default {
   props: {
-    model: Object
+    model: Array
   },
   computed: {
     containerClass() {
@@ -51,9 +52,11 @@ export default {
 
 .p-breadcrumb .p-menuitem-link {
   text-decoration: none;
+  color: #999;
 }
 
-li a{
-  color: #999;
+.pi-chevron-right{
+  font-size: 12px;
+  margin-right: 5px;
 }
 </style>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -8,6 +9,4 @@ Route::get('/', function(){
   return Inertia::render('Dashboard');
 })->name('dashboard');
 
-Route::get('/usuarios', function(){
-  return Inertia::render('Users', ['pageInfo' => ['target' => 'users', 'label' => 'Usuários']]);
-})->name('users');
+Route::get('/usuarios', [UsersController::class, 'index'])->name('users');
