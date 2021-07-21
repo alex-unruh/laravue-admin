@@ -16,7 +16,6 @@ import "primeicons/primeicons.css";
 
 // Components
 import Breadcrumb from '@/components/Breadcrumb';
-import PageTitle from '@/components/PageTitle';
 
 // Primevue
 import PrimeVue from "primevue/config";
@@ -47,7 +46,6 @@ createInertiaApp({
       .directive("badge", BadgeDirective)
 
       .component("Breadcrumb", Breadcrumb)
-      .component("PageTitle", PageTitle)
       .component("InputText", InputText)
       .component("InputSwitch", InputSwitch)
       .component("RadioButton", RadioButton);
