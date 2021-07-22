@@ -1,12 +1,12 @@
 <template>
   <div :class="containerClass" @click="onWrapperClick">
-    <AppTopBar @menu-toggle="onMenuToggle" @toggle-configurator="onToggleConfigurator" />
+    <AppTopBar @menu-toggle="onMenuToggle" @config-toggle="onToggleConfig" />
 
     <transition name="layout-sidebar">
       <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
         <div class="layout-logo">
           <inertia-link href="/">
-            <img alt="Logo" :src="logo" style="width: 80%" />
+            <img alt="Logo" :src="logo" style="width: 50%" />
           </inertia-link>
         </div>
 
@@ -19,7 +19,7 @@
       <slot />
     </div>
 
-    <AppConfig :layoutMode="layoutMode" :layoutColorMode="layoutColorMode" @layout-change="onLayoutChange" @layout-color-change="onLayoutColorChange" />
+    <AppConfig :layoutMode="layoutMode" ref="appConfig" :layoutColorMode="layoutColorMode" @layout-change="onLayoutChange" @layout-color-change="onLayoutColorChange" />
 
     <AppFooter />
   </div>
@@ -47,6 +47,9 @@ export default {
     };
   },
   methods: {
+    onToggleConfig(event){
+      this.$refs.appConfig.toggleConfigurator(event);
+    },
     onWrapperClick() {
       if (!this.menuClick) {
         this.overlayMenuActive = false;
@@ -89,9 +92,6 @@ export default {
     },
     onLayoutColorChange(layoutColorMode) {
       this.layoutColorMode = layoutColorMode;
-    },
-    onToggleConfigurator(event){
-      this.$emit('ToggleConfigurator', event);
     },
     addClass(element, className) {
       if (element.classList) element.classList.add(className);
@@ -139,7 +139,7 @@ export default {
       ];
     },
     logo() {
-      return "assets/layout/images/unruh.png";
+      return "assets/layout/images/logo_unruh_small.png";
     },
   },
   beforeUpdate() {

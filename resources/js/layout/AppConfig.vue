@@ -1,8 +1,5 @@
 <template>
 	<div id="layout-config" :class="containerClass">
-		<a href="#" class="layout-config-button" id="layout-config-button" @click="toggleConfigurator">
-			<i class="pi pi-cog"></i>
-		</a>
 		<a href="#" class="layout-config-close" @click="hideConfigurator">
 			<i class="pi pi-times"></i>
 		</a>
@@ -87,20 +84,14 @@
 		outsideClickListener: null,
 		methods: {
 			toggleConfigurator(event) {
-				this.active = !this.active;
+        this.active = !this.active;
 				event.preventDefault();
-
-				if (this.active)
-					this.bindOutsideClickListener();
-				else
-					this.unbindOutsideClickListener();
 			},
       onToggleConfigurator(event){
         this.toggleConfigurator(event);
       },
 			hideConfigurator(event) {
 				this.active = false;
-				this.unbindOutsideClickListener();
 				event.preventDefault();
 			},
 			changeInputStyle(value) {
@@ -116,25 +107,6 @@
 			changeLayoutColor(event, layoutColor) {
 				this.$emit('layout-color-change', layoutColor);
 				event.preventDefault();
-			},
-			bindOutsideClickListener() {
-				if (!this.outsideClickListener) {
-					this.outsideClickListener = (event) => {
-						if (this.active && this.isOutsideClicked(event)) {
-							this.active = false;
-						}
-					};
-					document.addEventListener('click', this.outsideClickListener);
-				}
-			},
-			unbindOutsideClickListener() {
-				if (this.outsideClickListener) {
-					document.removeEventListener('click', this.outsideClickListener);
-					this.outsideClickListener = null;
-				}
-			},
-			isOutsideClicked(event) {
-				return !(this.$el.isSameNode(event.target) || this.$el.contains(event.target));
 			}
 		},
 		computed: {

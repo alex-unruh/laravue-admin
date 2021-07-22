@@ -1,8 +1,8 @@
 <template>
 	<div class="layout-footer">
-		<span class="footer-text" style="margin-right: 5px">PrimeVue</span>
-		<img src="assets/layout/images/logo.svg" alt="sigma" width="80"/>
-		<span class="footer-text" style="margin-left: 5px">Theme and Layout</span>
+		<!-- <img src="assets/layout/images/logo_unruh_small_black.png" alt="sigma" width="90"/> -->
+    <span class="footer-text" style="margin-right: 5px">Unruh Solutions - &copy; All rights reserved</span>
+		<span class="footer-text" style="margin-left: 5px"></span>
 	</div>
 </template>
 

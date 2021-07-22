@@ -17,9 +17,13 @@
 }
 
 .layout-sidebar-dark{
-  background: linear-gradient(to bottom, #000000 5%, #b43c3d 35%, #000000 100%);
+  background: linear-gradient(to bottom, $menuDarkBgColorFirst 5%, $menuDarkBgColorMiddle 35%, $menuDarkBgColorLast 100%);
 }
 
 .layout-topbar, .layout-footer{
   background: linear-gradient(to right, #000000 5%, #b43c3d 45%, #000000 100%);
+}
+
+.p-link:focus{
+  box-shadow: none !important;
 }

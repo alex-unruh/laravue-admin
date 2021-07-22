@@ -1,6 +1,6 @@
 /* General */
 $fontSize:14px;
-$bodyBgColor:#222;
+$bodyBgColor:#000;
 $textColor:#DDD;
 $textSecondaryColor:#707070;
 $borderRadius:3px;
@@ -26,7 +26,8 @@ $menuitemBorderColor:rgba(207, 211, 224, 0.6);
 
 /* Menu Dark */
 $menuDarkBgColorFirst:#000;
-$menuDarkBgColorLast:#F0563D;
+$menuDarkBgColorMiddle:#F0563D;
+$menuDarkBgColorLast:#000;
 $menuitemDarkColor:#ffffff;
 $menuitemDarkHoverColor:#0388e5;
 $menuitemDarkActiveColor:#0388e5;
