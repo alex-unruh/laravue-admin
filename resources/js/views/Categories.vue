@@ -184,7 +184,7 @@ export default {
   layout: Layout,
   data() {
     return {
-      title: "Cetegories",
+      title: "Categories",
       icon: "pi pi-fw pi-book",
       breadcrumb: [{ label: "Categories", route: "categories" }],
       products: null,
