@@ -1,10 +1,10 @@
 <template>
-  <div class="p-grid">
+  <div class="p-grid crud-demo">
     <div class="p-col-12">
       <Breadcrumb :model="breadcrumb" :title="title" :icon="icon" />
       <div class="card">
         <h5>{{ title }}</h5>
-        <p>Use this page to start from scratch and place your custom content.</p>
+        <p>Settings Page</p>
       </div>
     </div>
   </div>
@@ -14,14 +14,14 @@
 import Layout from "@/layout/App";
 export default {
   layout: Layout,
-  data(){
+  data() {
     return {
-      title: 'Dashboard',
-      icon: 'pi pi-fw pi-home',
-      breadcrumb: []
-    }
-  }
+      title: "Settings",
+      icon: "pi pi-fw pi-book",
+      breadcrumb: [{ label: "Settings", route: "settings" }],
+    };
+  },
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss"></style>

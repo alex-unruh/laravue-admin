@@ -22,7 +22,7 @@
         <DataTable ref="dt" :value="products" v-model:selection="selectedProducts" dataKey="id" :paginator="true" :rows="10" :filters="filters" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" responsiveLayout="scroll">
           <template #header>
             <div class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-              <h5 class="p-m-0">Manage Users</h5>
+              <h5 class="p-m-0">Manage Mídia</h5>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
                 <InputText v-model="filters['global']" placeholder="Search..." />
@@ -184,9 +184,9 @@ export default {
   layout: Layout,
   data() {
     return {
-      title: "Users",
-      icon: "pi pi-fw pi-users",
-      breadcrumb: [{ label: "Users", route: "users" }],
+      title: "Media",
+      icon: "pi pi-fw pi-images",
+      breadcrumb: [{ label: "Media", route: "media" }],
       products: null,
       productDialog: false,
       deleteProductDialog: false,

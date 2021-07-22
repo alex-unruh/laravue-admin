@@ -42,7 +42,11 @@ export default {
       mobileMenuActive: false,
       menu: [
         { label: "Dashboard", icon: "pi pi-fw pi-home", to: "dashboard" },
-        { label: "Usuários", icon: "pi pi-fw pi-users", to: "users" },
+        { label: "Media", icon: "pi pi-fw pi-images", to: "media" },
+        { label: "Users", icon: "pi pi-fw pi-users", to: "users" },
+        { label: "Categories", icon: "pi pi-fw pi-list", to: "categories" },
+        { label: "Posts", icon: "pi pi-fw pi-book", to: "posts" },
+        { label: "Settings", icon: "pi pi-fw pi-cog", to: "settings" },
       ],
     };
   },

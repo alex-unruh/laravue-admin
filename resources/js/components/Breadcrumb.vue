@@ -1,6 +1,8 @@
 <template>
+  <inertia-head :title="title" />
   <nav class="p-breadcrumb p-component" aria-label="Breadcrumb">
-    <ul>
+    <h4><i :class="icon" style="fontSize: 1.5rem"></i> {{ title }}</h4>
+    <ul v-if="!route().current('dashboard')">
       <li class="p-breadcrumb-home">
         <inertia-link :href="route('dashboard')" class="p-menuitem-link">
           <i class="pi pi-fw pi-home"></i>
@@ -19,6 +21,8 @@
 <script>
 export default {
   props: {
+    title: String,
+    icon: String,
     model: Array
   },
   computed: {
