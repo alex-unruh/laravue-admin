@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Setting;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,21 @@ class SettingsController extends Controller
    */
   public function store(Request $request)
   {
-    //
+    $setting = Setting::where('key', $request->key)->first();
+    $setting->value = $request->value;
+    $setting->save();
+
+    return redirect()->back()->with(['Sucess']);
+  }
+
+  /**
+   * Undocumented function
+   *
+   * @return void
+   */
+  public function changeLogo(Request $request)
+  {
+    
   }
 
   /**
