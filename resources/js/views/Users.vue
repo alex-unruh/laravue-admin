@@ -7,15 +7,21 @@
     <div class="p-col-12">
       <div class="card">
         <Toast />
+
         <Toolbar class="p-mb-4">
           <template v-slot:left>
-            <Button label="New" icon="pi pi-plus" class="p-button-success p-mr-2" @click="openNew" />
-            <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length" />
+            <button type="button" class="p-button-success p-button p-component p-mr-2" @click="openNew"><i class="pi pi-plus">
+              </i>&nbsp;New
+            </button>
+            <button type="button" class="p-button-danger p-button p-component p-mr-2" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length">
+              <i class="pi pi-trash"></i>&nbsp; Delete
+            </button>
           </template>
 
           <template v-slot:right>
-            <FileUpload mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="p-mr-2 p-d-inline-block" />
-            <Button label="Export" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)" />
+            <button type="button" class="p-button-help p-button p-component" @click="exportCSV($event)">
+              <i class="pi pi-upload"></i>&nbsp;Export
+            </button>
           </template>
         </Toolbar>
 
@@ -81,21 +87,30 @@
           </Column>
         </DataTable>
 
-        <Dialog v-model:visible="productDialog" :style="{ width: '450px' }" header="Product Details" :modal="true" class="p-fluid">
-          <img :src="'assets/demo/images/product/' + product.image" :alt="product.image" class="product-image" v-if="product.image" />
+        <Dialog v-model:visible="productDialog" :style="{ width: '500px' }" :header="dialogLabel" :modal="true" class="p-fluid">
+          <img :src="'assets/layout/images/product/' + product.image" :alt="product.image" class="product-image" v-if="product.image" />
+
           <div class="p-field">
             <label for="name">Name</label>
-            <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
+            <input type="text" class="p-inputtext p-component" id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
             <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
-          </div>
-          <div class="p-field">
-            <label for="description">Description</label>
-            <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
           </div>
 
           <div class="p-field">
-            <label for="inventoryStatus" class="p-mb-3">Inventory Status</label>
-            <Dropdown id="inventoryStatus" v-model="product.inventoryStatus" :options="statuses" optionLabel="label" placeholder="Select a Status">
+            <label for="email">Email</label>
+            <input type="text" class="p-inputtext p-component" id="email" v-model.trim="product.email" required="true" autofocus :class="{ 'p-invalid': submitted && !product.email }" />
+            <small class="p-invalid" v-if="submitted && !product.email">Email is required.</small>
+          </div>
+
+          <div class="p-field">
+            <label for="password">Password</label>
+            <Password id="password" v-model.trim="product.password" required="true" autofocus :class="{ 'p-invalid': submitted && !product.password }" />
+            <small class="p-invalid" v-if="submitted && !product.password">Password is required.</small>
+          </div>
+
+          <div class="p-field">
+            <label for="profile" class="p-mb-3">User Profile</label>
+            <Dropdown id="profile" v-model="product.profile" :options="profiles" optionLabel="label" placeholder="Select a Profile">
               <template #value="slotProps">
                 <div v-if="slotProps.value && slotProps.value.value">
                   <span :class="'product-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
@@ -110,38 +125,6 @@
             </Dropdown>
           </div>
 
-          <div class="p-field">
-            <label class="p-mb-3">Category</label>
-            <div class="p-formgrid p-grid">
-              <div class="p-field-radiobutton p-col-6">
-                <RadioButton id="category1" name="category" value="Accessories" v-model="product.category" />
-                <label for="category1">Accessories</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                <RadioButton id="category2" name="category" value="Clothing" v-model="product.category" />
-                <label for="category2">Clothing</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                <RadioButton id="category3" name="category" value="Electronics" v-model="product.category" />
-                <label for="category3">Electronics</label>
-              </div>
-              <div class="p-field-radiobutton p-col-6">
-                <RadioButton id="category4" name="category" value="Fitness" v-model="product.category" />
-                <label for="category4">Fitness</label>
-              </div>
-            </div>
-          </div>
-
-          <div class="p-formgrid p-grid">
-            <div class="p-field p-col">
-              <label for="price">Price</label>
-              <InputNumber id="price" v-model="product.price" mode="currency" currency="USD" locale="en-US" />
-            </div>
-            <div class="p-field p-col">
-              <label for="quantity">Quantity</label>
-              <InputNumber id="quantity" v-model="product.quantity" integeronly />
-            </div>
-          </div>
           <template #footer>
             <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
             <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
@@ -187,6 +170,7 @@ export default {
       title: "Users",
       icon: "pi pi-fw pi-users",
       breadcrumb: [{ label: "Users", route: "users" }],
+      dialogLabel: null,
       products: null,
       productDialog: false,
       deleteProductDialog: false,
@@ -195,10 +179,10 @@ export default {
       selectedProducts: null,
       filters: {},
       submitted: false,
-      statuses: [
-        { label: "INSTOCK", value: "instock" },
-        { label: "LOWSTOCK", value: "lowstock" },
-        { label: "OUTOFSTOCK", value: "outofstock" },
+      profiles: [
+        { label: "ADMIN", value: "Admin" },
+        { label: "EDITOR", value: "Editor" },
+        { label: "VISITOR", value: "Visitor" },
       ],
     };
   },
@@ -219,7 +203,7 @@ export default {
       return;
     },
     openNew() {
-      this.product = {};
+      (this.dialogLabel = "New User"), (this.product = {});
       this.submitted = false;
       this.productDialog = true;
     },
@@ -257,7 +241,7 @@ export default {
       }
     },
     editProduct(product) {
-      this.product = { ...product };
+      (this.dialogLabel = "Edit User"), (this.product = { ...product });
       this.productDialog = true;
     },
     confirmDeleteProduct(product) {

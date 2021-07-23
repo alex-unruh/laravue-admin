@@ -39,10 +39,12 @@ import Dropdown from "primevue/dropdown";
 import Textarea from "primevue/textarea";
 import InputNumber from "primevue/inputnumber";
 import Rating from "primevue/rating";
+import Password from "primevue/password";
 
 InertiaProgress.init();
 
 createInertiaApp({
+  title: title => `Laravue Admin - ${title}`,
   resolve: (name) => import(`./views/${name}`),
   setup({ el, app, props, plugin }) {
     const vue = createApp({ render: () => h(app, props) })
@@ -70,6 +72,7 @@ createInertiaApp({
       .component("Textarea", Textarea)
       .component("InputNumber", InputNumber)
       .component("Rating", Rating)
+      .component("Password", Password)
       .component("Button", Button);
 
     vue.config.globalProperties.$appState = reactive({

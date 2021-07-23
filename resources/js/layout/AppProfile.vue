@@ -1,7 +1,7 @@
 <template>
   <div class="layout-profile">
     <div>
-      <img src="assets/layout/images/icon.svg" alt="" />
+      <img src="assets/layout/images/profile.png" alt="" />
     </div>
     <button class="p-link layout-profile-link" @click="onClick">
       <span class="username">Alexandre Unruh</span>

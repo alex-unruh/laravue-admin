@@ -143,7 +143,7 @@ export default {
       ];
     },
     logo() {
-      return "assets/layout/images/logo_unruh_small.png";
+      return "assets/layout/images/v-logo.png";
     },
   },
   beforeUpdate() {
