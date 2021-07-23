@@ -33,15 +33,15 @@
 				</div>
 			</div>
 
-			<h5>Menu Color</h5>
+			<h5>Menu Theme</h5>
 			<div class="p-formgroup-inline">
 				<div class="p-field-radiobutton">
 					<RadioButton id="dark" name="layoutColorMode" value="dark" v-model="d_layoutColorMode" @change="changeLayoutColor($event, 'dark')" />
 					<label for="dark">Dark</label>
 				</div>
 				<div class="p-field-radiobutton">
-					<RadioButton id="light" name="layoutColorMode" value="light" v-model="d_layoutColorMode" @change="changeLayoutColor($event, 'light')" />
-					<label for="light">Light</label>
+					<RadioButton id="deluxe" name="layoutColorMode" value="deluxe" v-model="d_layoutColorMode" @change="changeLayoutColor($event, 'deluxe')" />
+					<label for="dark">Deluxe</label>
 				</div>
 			</div>
 		</div>

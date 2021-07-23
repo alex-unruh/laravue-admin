@@ -1,25 +1,77 @@
 //Suggested location to add your overrides so that migration would be easy by just updating the SASS folder in the future
 
-.card{
+.card {
   background-color: #1e1e1e;
 }
 
-.layout-config{
+.layout-config {
   background-color: #222;
 }
 
-.layout-config .layout-config-button {
-  background-color: #F0563D;
-}
-
-.layout-sidebar-dark{
-  background: linear-gradient(to bottom, $menuDarkBgColorFirst 5%, $menuDarkBgColorMiddle 35%, $menuDarkBgColorLast 100%);
-}
-
-.layout-topbar, .layout-footer{
-  background: linear-gradient(to right, #000000 5%, #b43c3d 45%, #000000 100%);
-}
-
-.p-link:focus{
+.p-link:focus {
   box-shadow: none !important;
+}
+
+.layout-sidebar-dark {
+  background: linear-gradient(
+    to bottom,
+    $menuDarkBgColorFirst 0%,
+    $menuDarkBgColorCenter 50%,
+    $menuDarkBgColorLast 100%
+  );
+}
+
+.layout-sidebar-deluxe {
+  background: linear-gradient(
+    to bottom,
+    $menuDeluxeBgColorFirst 0%,
+    $menuDeluxeBgColorCenter 50%,
+    $menuDeluxeBgColorLast 100%
+  );
+}
+
+.layout-topbar-dark,
+.layout-footer-dark {
+  background: linear-gradient(
+    to right,
+    $menuDarkBgColorFirst 0%,
+    $menuDarkBgColorCenter 50%,
+    $menuDarkBgColorLast 100%
+  );
+}
+
+.layout-topbar-deluxe,
+.layout-footer-deluxe {
+  background: linear-gradient(
+    to right,
+    $menuDeluxeBgColorFirst 0%,
+    $menuDeluxeBgColorCenter 50%,
+    $menuDeluxeBgColorLast 100%
+  );
+}
+
+.layout-sidebar-deluxe {
+  .layout-profile {
+    .layout-profile-link {
+      color: $menuitemDarkColor;
+
+      &:hover {
+        color: $menuitemDarkHoverColor;
+      }
+    }
+
+    ul {
+      background-color: $menuitemDarkActiveBgColor;
+
+      li {
+        button {
+          color: $menuitemDarkColor;
+
+          &:hover {
+            color: $menuitemDarkHoverColor;
+          }
+        }
+      }
+    }
+  }
 }

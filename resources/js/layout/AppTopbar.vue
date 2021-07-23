@@ -1,5 +1,5 @@
 <template>
-  <div class="layout-topbar p-shadow-5">
+  <div :class="layoutClass">
     <button class="p-link layout-menu-button" @click="onMenuToggle">
       <span class="pi pi-bars"></span>
     </button>
@@ -27,13 +27,21 @@
 
 <script>
 export default {
+  props: {
+    colorMode: String,
+  },
+  computed: {
+    layoutClass() {
+      return ["layout-topbar", "p-shadow-5", "layout-topbar-" + this.colorMode];
+    },
+  },
   methods: {
     onMenuToggle(event) {
       this.$emit("menu-toggle", event);
     },
     onToggleConfig(event) {
-      this.$emit('configToggle', event);
+      this.$emit("configToggle", event);
     },
-  }
+  },
 };
 </script>

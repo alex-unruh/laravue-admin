@@ -1,6 +1,6 @@
 /* General */
 $fontSize:14px;
-$bodyBgColor:#000;
+$bodyBgColor:#222;
 $textColor:#DDD;
 $textSecondaryColor:#707070;
 $borderRadius:3px;
@@ -26,7 +26,7 @@ $menuitemBorderColor:rgba(207, 211, 224, 0.6);
 
 /* Menu Dark */
 $menuDarkBgColorFirst:#000;
-$menuDarkBgColorMiddle:#F0563D;
+$menuDarkBgColorCenter:#333;
 $menuDarkBgColorLast:#000;
 $menuitemDarkColor:#ffffff;
 $menuitemDarkHoverColor:#0388e5;
@@ -34,9 +34,25 @@ $menuitemDarkActiveColor:#0388e5;
 $menuitemDarkActiveBgColor:#2e3035;
 $menuitemDarkBorderColor:rgba(52, 56, 65, 0.6);
 
+/* Menu Deluxe */
+$menuDeluxeBgColorFirst:#000;
+$menuDeluxeBgColorCenter:#F0563D;
+$menuDeluxeBgColorLast:#000;
+$menuitemDeluxeColor:#ffffff;
+$menuitemDeluxeHoverColor:#0388e5;
+$menuitemDeluxeActiveColor:#0388e5;
+$menuitemDeluxeActiveBgColor:#2e3035;
+$menuitemDeluxeBorderColor:rgba(52, 56, 65, 0.6);
+
 /* Topbar */
 $topbarLeftBgColor:#000;
-$topbarRightBgColor:#F0563D;
+$topbarCenterBgColor:#F0563D;
+$topbarRightBgColor:#000;
+
+// $topbarLeftBgColor:#000;
+// $topbarCenterBgColor:#333;
+// $topbarRightBgColor:#000;
+
 $topbarItemBadgeBgColor:#ef6262;
 $topbarItemBadgeColor:#ffffff;
 $topbarItemColor:#ffffff;
@@ -45,4 +61,4 @@ $topbarSearchInputBorderBottomColor:#ffffff;
 $topbarSearchInputColor:#ffffff;
 
 /* Footer */
-$footerBgColor:#F0563D;
+$footerBgColor:#000;

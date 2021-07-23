@@ -19,7 +19,7 @@ import Breadcrumb from '@/components/Breadcrumb';
 
 // Primevue
 import PrimeVue from "primevue/config";
-import CodeHighlight from "./AppCodeHighlight";
+import CodeHighlight from "@/plugins/AppCodeHighlight";
 import ConfirmationService from "primevue/confirmationservice";
 import ToastService from "primevue/toastservice";
 import Ripple from "primevue/ripple";

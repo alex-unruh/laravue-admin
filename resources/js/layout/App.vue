@@ -1,6 +1,6 @@
 <template>
   <div :class="containerClass" @click="onWrapperClick">
-    <AppTopBar @menu-toggle="onMenuToggle" @config-toggle="onToggleConfig" />
+    <AppTopBar @menu-toggle="onMenuToggle" @config-toggle="onToggleConfig" :colorMode="layoutColorMode" />
 
     <transition name="layout-sidebar">
       <div :class="sidebarClass" @click="onSidebarClick" v-show="isSidebarVisible()">
@@ -21,7 +21,7 @@
 
     <AppConfig :layoutMode="layoutMode" ref="appConfig" :layoutColorMode="layoutColorMode" @layout-change="onLayoutChange" @layout-color-change="onLayoutColorChange" />
 
-    <AppFooter />
+    <AppFooter :colorMode="layoutColorMode" />
   </div>
 </template>
 
@@ -33,10 +33,13 @@ import AppConfig from "./AppConfig.vue";
 import AppFooter from "./AppFooter.vue";
 
 export default {
+  props: {
+    settings: Object,
+  },
   data() {
     return {
       layoutMode: "static",
-      layoutColorMode: "dark",
+      layoutColorMode: 'dark',
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
@@ -51,7 +54,7 @@ export default {
     };
   },
   methods: {
-    onToggleConfig(event){
+    onToggleConfig(event) {
       this.$refs.appConfig.toggleConfigurator(event);
     },
     onWrapperClick() {
@@ -93,9 +96,11 @@ export default {
     },
     onLayoutChange(layoutMode) {
       this.layoutMode = layoutMode;
+      this.saveSetting('menu_type', layoutMode);
     },
     onLayoutColorChange(layoutColorMode) {
       this.layoutColorMode = layoutColorMode;
+      this.saveSetting('menu_theme', layoutColorMode);
     },
     addClass(element, className) {
       if (element.classList) element.classList.add(className);
@@ -107,6 +112,17 @@ export default {
     },
     isDesktop() {
       return window.innerWidth > 1024;
+    },
+    saveSetting(setting, value) {
+      this.$inertia.visit(route("settings.store"), {
+        method: "post",
+        preserveState: true,
+        preserveScroll: true,
+        data: {
+          key: setting,
+          value: value,
+        },
+      });
     },
     isSidebarVisible() {
       if (this.isDesktop()) {
@@ -138,7 +154,16 @@ export default {
         "layout-sidebar",
         {
           "layout-sidebar-dark": this.layoutColorMode === "dark",
-          "layout-sidebar-light": this.layoutColorMode === "light",
+          "layout-sidebar-deluxe": this.layoutColorMode === "deluxe",
+        },
+      ];
+    },
+    topbarClass() {
+      return [
+        "layout-sidebar",
+        {
+          "layout-topbar-dark": this.layoutColorMode === "dark",
+          "layout-topbar-deluxe": this.layoutColorMode === "deluxe",
         },
       ];
     },
@@ -149,6 +174,10 @@ export default {
   beforeUpdate() {
     if (this.mobileMenuActive) this.addClass(document.body, "body-overflow-hidden");
     else this.removeClass(document.body, "body-overflow-hidden");
+  },
+  mounted() {
+    this.layoutMode = this.settings.menu_type;
+    this.layoutColorMode = this.settings.menu_theme;
   },
   components: {
     AppTopBar: AppTopBar,
@@ -161,5 +190,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./App.scss";
+@import "@/assets/layout/App.scss";
 </style>
