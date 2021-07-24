@@ -14,8 +14,6 @@ Admin dashboard based on [sigma-laravue](https://github.com/alex-unruh/sigma-lar
 - [Ziggy Routes](https://github.com/tighten/ziggy)
 - [Primevue UI](https://primefaces.org/primevue/showcase/#/)
 
-## Componets:
-
 ## Setup:
 
 After clone this repository, run, inside the folder:
