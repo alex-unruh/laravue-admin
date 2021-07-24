@@ -3,7 +3,6 @@
     <div class="p-col-12">
       <Breadcrumb :model="breadcrumb" :title="title" :icon="icon" />
       <div class="card">
-        <h5>{{ title }}</h5>
         <p>Settings Page</p>
       </div>
     </div>

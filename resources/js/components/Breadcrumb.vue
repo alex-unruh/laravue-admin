@@ -2,13 +2,13 @@
   <inertia-head :title="title" />
   <nav class="p-breadcrumb p-component" aria-label="Breadcrumb">
     <h4><i :class="icon" style="fontSize: 1.5rem"></i> {{ title }}</h4>
-    <ul v-if="!route().current('dashboard')">
+    <ul>
       <li class="p-breadcrumb-home">
         <inertia-link :href="route('dashboard')" class="p-menuitem-link">
           <i class="pi pi-fw pi-home"></i>
         </inertia-link>
       </li>
-      <li v-if="model.length > 0" v-for="(item, index) in model" :key="index" class="p-breadcrumb-chevron">
+      <li v-for="(item, index) in model" :key="index" class="p-breadcrumb-chevron">
         <inertia-link v-if="item.route" :href="route(item.route)" class="p-menuitem-link">
           <i class="pi pi-chevron-right"></i>
           <i v-if="item.icon" :class="item.icon"></i><span class="p-menuitem-text">{{ item.label }}</span>

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Setting;
 use Inertia\Inertia;
+use App\Models\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class SettingsController extends Controller
 {
@@ -40,7 +41,7 @@ class SettingsController extends Controller
     $setting->value = $request->value;
     $setting->save();
 
-    return redirect()->back()->with(['Sucess']);
+    return redirect()->back();
   }
 
   /**
@@ -50,7 +51,12 @@ class SettingsController extends Controller
    */
   public function changeLogo(Request $request)
   {
-    
+    $setting = Setting::where('key', 'admin_logo')->first();
+    Storage::delete('public/' . $setting->value);
+    $path = $request->file('logo')->store('public');
+    $setting->value = str_replace('public/', '', $path);
+    $setting->save();
+    return redirect()->back();
   }
 
   /**

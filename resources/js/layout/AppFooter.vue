@@ -1,7 +1,6 @@
 <template>
   <div :class="layoutClass">
-    <!-- <img src="assets/layout/images/logo_unruh_small_black.png" alt="sigma" width="90"/> -->
-    <span class="footer-text" style="margin-right: 5px">Unruh Solutions - &copy; All rights reserved</span>
+    <span class="footer-text" style="margin-right: 5px">{{ appName }} | version: {{ appVersion }} - MIT License</span>
     <span class="footer-text" style="margin-left: 5px"></span>
   </div>
 </template>
@@ -10,6 +9,8 @@
 export default {
   name: "AppFooter",
   props: {
+    appName: String,
+    appVersion: String,
     colorMode: String,
   },
   computed: {

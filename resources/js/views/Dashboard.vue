@@ -3,8 +3,7 @@
     <div class="p-col-12">
       <Breadcrumb :model="breadcrumb" :title="title" :icon="icon" />
       <div class="card">
-        <h5>{{ title }}</h5>
-        <p>Use this page to start from scratch and place your custom content.</p>
+        <p>Dashboard Page</p>
       </div>
     </div>
   </div>

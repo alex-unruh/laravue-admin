@@ -2,26 +2,18 @@
   <div class="p-grid crud-demo">
     <div class="p-col-12">
       <Breadcrumb :model="breadcrumb" :title="title" :icon="icon" />
-    </div>
 
-    <div class="p-col-12">
       <div class="card">
         <Toast />
 
         <Toolbar class="p-mb-4">
           <template v-slot:left>
-            <button type="button" class="p-button-success p-button p-component p-mr-2" @click="openNew"><i class="pi pi-plus">
-              </i>&nbsp;New
-            </button>
-            <button type="button" class="p-button-danger p-button p-component p-mr-2" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length">
-              <i class="pi pi-trash"></i>&nbsp; Delete
-            </button>
+            <button type="button" class="p-button-success p-button p-component p-mr-2" @click="openNew"><i class="pi pi-plus"> </i>&nbsp;New</button>
+            <button type="button" class="p-button-danger p-button p-component p-mr-2" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length"><i class="pi pi-trash"></i>&nbsp; Delete</button>
           </template>
 
           <template v-slot:right>
-            <button type="button" class="p-button-help p-button p-component" @click="exportCSV($event)">
-              <i class="pi pi-upload"></i>&nbsp;Export
-            </button>
+            <button type="button" class="p-button-help p-button p-component" @click="exportCSV($event)"><i class="pi pi-upload"></i>&nbsp;Export</button>
           </template>
         </Toolbar>
 

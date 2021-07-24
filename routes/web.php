@@ -23,4 +23,4 @@ Route::get('/categories', [CategoriesController::class, 'index'])->name('categor
 Route::get('/posts', [PostsController::class, 'index'])->name('posts');
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
-Route::post('/settings/change-logo', [SettingsController::class, 'changeLogo'])->name('settings.change-logo');
+Route::post('/change-logo', [SettingsController::class, 'changeLogo'])->name('change.logo');

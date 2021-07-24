@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <div :class="containerClass" @click="onWrapperClick">
     <AppTopBar @menu-toggle="onMenuToggle" @config-toggle="onToggleConfig" :colorMode="layoutColorMode" />
 
@@ -21,7 +22,7 @@
 
     <AppConfig :layoutMode="layoutMode" ref="appConfig" :layoutColorMode="layoutColorMode" @layout-change="onLayoutChange" @layout-color-change="onLayoutColorChange" />
 
-    <AppFooter :colorMode="layoutColorMode" />
+    <AppFooter :colorMode="layoutColorMode" :appName="settings.app_name" :appVersion="settings.app_version" />
   </div>
 </template>
 
@@ -39,17 +40,17 @@ export default {
   data() {
     return {
       layoutMode: "static",
-      layoutColorMode: 'dark',
+      layoutColorMode: "dark",
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
       menu: [
         { label: "Dashboard", icon: "pi pi-fw pi-home", to: "dashboard" },
-        { label: "Media", icon: "pi pi-fw pi-images", to: "media" },
         { label: "Users", icon: "pi pi-fw pi-users", to: "users" },
         { label: "Categories", icon: "pi pi-fw pi-list", to: "categories" },
         { label: "Posts", icon: "pi pi-fw pi-book", to: "posts" },
         { label: "Settings", icon: "pi pi-fw pi-cog", to: "settings" },
+        { label: "Media", icon: "pi pi-fw pi-images", to: "media" },
       ],
     };
   },
@@ -96,11 +97,11 @@ export default {
     },
     onLayoutChange(layoutMode) {
       this.layoutMode = layoutMode;
-      this.saveSetting('menu_type', layoutMode);
+      this.saveSetting("menu_type", layoutMode);
     },
     onLayoutColorChange(layoutColorMode) {
       this.layoutColorMode = layoutColorMode;
-      this.saveSetting('menu_theme', layoutColorMode);
+      this.saveSetting("menu_theme", layoutColorMode);
     },
     addClass(element, className) {
       if (element.classList) element.classList.add(className);
@@ -122,6 +123,9 @@ export default {
           key: setting,
           value: value,
         },
+        onSuccess: () => {
+          this.$toast.add({severity: 'info', summary: 'Success', detail: 'Layout changed', life: 2000});
+        }
       });
     },
     isSidebarVisible() {
@@ -168,7 +172,7 @@ export default {
       ];
     },
     logo() {
-      return "assets/layout/images/v-logo.png";
+      return this.settings.admin_logo && this.settings.admin_logo !== "" ? "storage/" + this.settings.admin_logo : "assets/layout/images/v-logo.png";
     },
   },
   beforeUpdate() {
