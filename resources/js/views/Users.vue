@@ -17,7 +17,7 @@
           </template>
         </Toolbar>
 
-        <DataTable ref="dt" :value="users" :selection="selectedUsers" dataKey="id" :paginator="true" :rows="10" :filters="filters" :globalFilterFields="['name', 'email', 'profile']" filterDisplay="menu" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users" responsiveLayout="scroll">
+        <DataTable ref="dt" :value="users" v-model:selection="selectedUsers" dataKey="id" :paginator="true" :rows="10" :filters="filters" :globalFilterFields="['name', 'email', 'profile']" filterDisplay="menu" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users" responsiveLayout="scroll">
           <template #header>
             <div class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
               <h5 class="p-m-0">Manage Users</h5>
