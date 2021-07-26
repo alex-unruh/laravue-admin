@@ -17,7 +17,7 @@
           </template>
         </Toolbar>
 
-        <DataTable ref="dt" :value="products" v-model:selection="selectedProducts" dataKey="id" :paginator="true" :rows="10" :filters="filters" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" responsiveLayout="scroll">
+        <DataTable ref="dt" :value="users" v-model:selection="selectedProducts" dataKey="id" :paginator="true" :rows="10" :filters="filters" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products" responsiveLayout="scroll">
           <template #header>
             <div class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
               <h5 class="p-m-0">Manage Users</h5>
@@ -29,97 +29,88 @@
           </template>
 
           <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-          <Column field="code" header="Code" :sortable="true">
+
+          <Column header="Image">
             <template #body="slotProps">
-              <span class="p-column-title">Code</span>
-              {{ slotProps.data.code }}
+              <span class="p-column-title">Image</span>
+              <img :src="'storage/' + slotProps.data.image" :alt="slotProps.data.image" class="product-image" />
             </template>
           </Column>
+
+          <Column field="id" header="Id" :sortable="true">
+            <template #body="slotProps">
+              <span class="p-column-title">Id</span>
+              {{ slotProps.data.id }}
+            </template>
+          </Column>
+
           <Column field="name" header="Name" :sortable="true">
             <template #body="slotProps">
               <span class="p-column-title">Name</span>
               {{ slotProps.data.name }}
             </template>
           </Column>
-          <Column header="Image">
+
+          <Column field="email" header="E-mail" :sortable="true">
             <template #body="slotProps">
-              <span class="p-column-title">Image</span>
-              <img :src="'assets/layout/images/product/' + slotProps.data.image" :alt="slotProps.data.image" class="product-image" />
+              <span class="p-column-title">Email</span>
+              {{ formatCurrency(slotProps.data.email) }}
             </template>
           </Column>
-          <Column field="price" header="Price" :sortable="true">
+
+          <Column field="profile" header="Profile" :sortable="true">
             <template #body="slotProps">
-              <span class="p-column-title">Price</span>
-              {{ formatCurrency(slotProps.data.price) }}
+              <span class="p-column-title">Profile</span>
+              {{ formatCurrency(slotProps.data.profile) }}
             </template>
           </Column>
-          <Column field="category" header="Category" :sortable="true">
-            <template #body="slotProps">
-              <span class="p-column-title">Category</span>
-              {{ formatCurrency(slotProps.data.category) }}
-            </template>
-          </Column>
-          <Column field="rating" header="Reviews" :sortable="true">
-            <template #body="slotProps">
-              <span class="p-column-title">Rating</span>
-              <Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false" />
-            </template>
-          </Column>
-          <Column field="inventoryStatus" header="Status" :sortable="true">
-            <template #body="slotProps">
-              <span class="p-column-title">Status</span>
-              <span :class="'product-badge status-' + (slotProps.data.inventoryStatus ? slotProps.data.inventoryStatus.toLowerCase() : '')">{{ slotProps.data.inventoryStatus }}</span>
-            </template>
-          </Column>
+
           <Column>
             <template #body="slotProps">
-              <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editProduct(slotProps.data)" />
+              <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editUser(slotProps.data)" />
               <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)" />
             </template>
           </Column>
         </DataTable>
 
         <Dialog v-model:visible="productDialog" :style="{ width: '500px' }" :header="dialogLabel" :modal="true" class="p-fluid">
-          <img :src="'assets/layout/images/product/' + product.image" :alt="product.image" class="product-image" v-if="product.image" />
+          <form @submit.prevent="submit">
+            <img :src="'storage/' + form.image" :alt="form.image" class="product-image" v-if="form.image && isUpdate" />
 
-          <div class="p-field">
-            <label for="name">Name</label>
-            <input type="text" class="p-inputtext p-component" id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
-            <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
-          </div>
+            <div class="p-field">
+              <label for="name">Name</label>
+              <input type="text" class="p-inputtext p-component" name="name" id="name" v-model.trim="form.name" required="true" autofocus :class="{ 'p-invalid': errors.name }" />
+              <small class="p-invalid" v-if="errors.name">{{ errors.name }}</small>
+            </div>
 
-          <div class="p-field">
-            <label for="email">Email</label>
-            <input type="text" class="p-inputtext p-component" id="email" v-model.trim="product.email" required="true" autofocus :class="{ 'p-invalid': submitted && !product.email }" />
-            <small class="p-invalid" v-if="submitted && !product.email">Email is required.</small>
-          </div>
+            <div class="p-field">
+              <label for="email">Email</label>
+              <input type="text" class="p-inputtext p-component" name="email" id="email" v-model.trim="form.email" required="true" autofocus :class="{ 'p-invalid': errors.email }" />
+              <small class="p-invalid" v-if="errors.email">{{ errors.email }}</small>
+            </div>
 
-          <div class="p-field">
-            <label for="password">Password</label>
-            <Password id="password" v-model.trim="product.password" required="true" autofocus :class="{ 'p-invalid': submitted && !product.password }" />
-            <small class="p-invalid" v-if="submitted && !product.password">Password is required.</small>
-          </div>
+            <div class="p-field">
+              <label for="password">Password</label>
+              <Password id="password" v-model.trim="form.password" :required="!isUpdate" autofocus :class="{ 'p-invalid': errors.password }" />
+              <small class="p-invalid" v-if="errors.password">{{ errors.password }}</small>
+            </div>
 
-          <div class="p-field">
-            <label for="profile" class="p-mb-3">User Profile</label>
-            <Dropdown id="profile" v-model="product.profile" :options="profiles" optionLabel="label" placeholder="Select a Profile">
-              <template #value="slotProps">
-                <div v-if="slotProps.value && slotProps.value.value">
-                  <span :class="'product-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
-                </div>
-                <div v-else-if="slotProps.value && !slotProps.value.value">
-                  <span :class="'product-badge status-' + slotProps.value.toLowerCase()">{{ slotProps.value }}</span>
-                </div>
-                <span v-else>
-                  {{ slotProps.placeholder }}
-                </span>
-              </template>
-            </Dropdown>
-          </div>
+            <div class="p-field">
+              <label for="profile">User Profile</label>
+              <Dropdown v-model="form.profile" :options="profiles" optionLabel="label" optionValue="label" placeholder="Select a profile" />
+              <small class="p-invalid" v-if="errors.profile">{{ errors.profile }}</small>
+            </div>
+
+            <div class="p-field">
+              <label for="profile">User Image</label><br />
+              <input type="file" @change="changeUserImage" accept="image/*" class="custom-input-file" />
+              <small class="p-invalid" v-if="errors.image">{{ errors.image }}</small>
+            </div>
+          </form>
 
           <template #footer>
             <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
-            <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
+            <Button :label="isUpdate ? 'Update' : 'Save'" icon="pi pi-check" class="p-button-text" @click="saveUser" />
           </template>
         </Dialog>
 
@@ -156,6 +147,10 @@
 import ProductService from "@/service/ProductService";
 import Layout from "@/layout/App";
 export default {
+  props: {
+    users: Array,
+    errors: Object,
+  },
   layout: Layout,
   data() {
     return {
@@ -163,6 +158,7 @@ export default {
       icon: "pi pi-fw pi-users",
       breadcrumb: [{ label: "Users", route: "users" }],
       dialogLabel: null,
+      isUdpate: false,
       products: null,
       productDialog: false,
       deleteProductDialog: false,
@@ -171,11 +167,15 @@ export default {
       selectedProducts: null,
       filters: {},
       submitted: false,
-      profiles: [
-        { label: "ADMIN", value: "Admin" },
-        { label: "EDITOR", value: "Editor" },
-        { label: "VISITOR", value: "Visitor" },
-      ],
+      profiles: [{ label: "Admin" }, { label: "Editor" }, { label: "Visitor" }],
+      form: this.$inertia.form({
+        id: null,
+        name: null,
+        email: null,
+        password: null,
+        image: null,
+        profile: null,
+      }),
     };
   },
   productService: null,
@@ -195,45 +195,34 @@ export default {
       return;
     },
     openNew() {
-      (this.dialogLabel = "New User"), (this.product = {});
+      this.dialogLabel = "New User";
+      this.product = {};
       this.submitted = false;
       this.productDialog = true;
+      this.isUpdate = false;
     },
     hideDialog() {
       this.productDialog = false;
       this.submitted = false;
     },
-    saveProduct() {
+    saveUser() {
       this.submitted = true;
-      if (this.product.name.trim()) {
-        if (this.product.id) {
-          this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-          this.products[this.findIndexById(this.product.id)] = this.product;
-          this.$toast.add({
-            severity: "success",
-            summary: "Successful",
-            detail: "Product Updated",
-            life: 3000,
-          });
-        } else {
-          this.product.id = this.createId();
-          this.product.code = this.createId();
-          this.product.image = "product-placeholder.svg";
-          this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : "INSTOCK";
-          this.products.push(this.product);
-          this.$toast.add({
-            severity: "success",
-            summary: "Successful",
-            detail: "Product Created",
-            life: 3000,
-          });
-        }
-        this.productDialog = false;
-        this.product = {};
-      }
+      this.form.post(route("users.store"), {
+        data: this.form,
+        forceFormData: true,
+        preserveState: true,
+        preserveScroll: true,
+        onSuccess: () => {
+          this.$toast.add({ severity: "success", summary: "Success", detail: "User created", life: 3000 });
+          this.form.reset();
+          this.productDialog = false;
+        },
+      });
     },
-    editProduct(product) {
-      (this.dialogLabel = "Edit User"), (this.product = { ...product });
+    editUser(user) {
+      this.dialogLabel = "Edit User";
+      this.form = { ...user };
+      this.isUpdate = true;
       this.productDialog = true;
     },
     confirmDeleteProduct(product) {
@@ -286,6 +275,9 @@ export default {
         life: 3000,
       });
     },
+    changeUserImage(event) {
+      this.form.image = event.target.files[0];
+    },
   },
 };
 </script>
@@ -297,7 +289,7 @@ export default {
 }
 
 .product-image {
-  width: 100px;
+  width: 60px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -342,5 +334,18 @@ export default {
   .p-button {
     margin-bottom: 0.25rem;
   }
+}
+
+.custom-input-file::file-selector-button {
+  border: 1px solid #999;
+  padding: 0.6em;
+  border-radius: 0.2em;
+  background: linear-gradient(to bottom, #000 0%, #555 50%, #000 100%);
+  color: #ddd;
+  transition: 1s;
+  cursor: pointer;
+}
+.custom-input-file::file-selector-button:hover {
+  background: linear-gradient(to bottom, #000 0%, #f0563d 50%, #000 100%);
 }
 </style>

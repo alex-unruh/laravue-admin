@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
@@ -20,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile',
+        'image'
     ];
 
     /**
@@ -40,4 +43,39 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $password
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $profile
+     * @return void
+     */
+    public function setProfileAttribute($profile)
+    {
+        $profiles = config('labels.user_profiles');
+        $this->attributes['profile'] = array_search($profile, $profiles);
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $profile
+     * @return void
+     */
+    public function getProfileAttribute($profile)
+    {
+        $profiles = config('labels.user_profiles');
+        return $profiles[$profile];
+    }
 }

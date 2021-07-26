@@ -17,7 +17,11 @@ Route::get('/', function () {
   return Inertia::render('Dashboard');
 })->name('dashboard');
 
+// Users
 Route::get('/users', [UsersController::class, 'index'])->name('users');
+Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
+Route::post('/users/update/{user}', [UsersController::class, 'update'])->name('users.update');
+
 Route::get('/media', [MediaController::class, 'index'])->name('media');
 Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
 Route::get('/posts', [PostsController::class, 'index'])->name('posts');
