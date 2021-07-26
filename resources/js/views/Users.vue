@@ -17,13 +17,13 @@
           </template>
         </Toolbar>
 
-        <DataTable ref="dt" :value="users" v-model:selection="selectedUsers" dataKey="id" :paginator="true" :rows="10" :filters="filters" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users" responsiveLayout="scroll">
+        <DataTable ref="dt" :value="users" :selection="selectedUsers" dataKey="id" :paginator="true" :rows="10" :filters="filters" :globalFilterFields="['name', 'email', 'profile']" filterDisplay="menu" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users" responsiveLayout="scroll">
           <template #header>
             <div class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
               <h5 class="p-m-0">Manage Users</h5>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
-                <InputText v-model="filters['global']" placeholder="Search..." />
+                <InputText v-model="filters['global'].value" placeholder="Search..." />
               </span>
             </div>
           </template>
@@ -103,7 +103,7 @@
 
             <div class="p-field">
               <label for="profile">User Image</label><br />
-              <input type="file" name="image" @change="onUserImageChange" accept="image/*" class="custom-input-file" /><br>
+              <input type="file" name="image" @change="onUserImageChange" accept="image/*" class="custom-input-file" /><br />
               <small class="p-invalid" v-if="errors.image">{{ errors.image }}</small>
             </div>
           </form>
@@ -162,7 +162,7 @@ export default {
       deleteUserDialog: false,
       deleteUsersDialog: false,
       selectedUsers: null,
-      filters: {},
+      filters: { global: { value: null } },
       submitted: false,
       profiles: [{ label: "Admin" }, { label: "Editor" }, { label: "Visitor" }],
       form: this.$inertia.form({
@@ -224,7 +224,7 @@ export default {
         },
       });
     },
-    onUserImageChange(event){
+    onUserImageChange(event) {
       this.form.image_file = event.target.files[0];
     },
     exportCSV() {
@@ -235,13 +235,13 @@ export default {
     },
     deleteSelectedUsers() {
       let ids = [];
-      for(let i = 0; i < this.selectedUsers.length; i++){
+      for (let i = 0; i < this.selectedUsers.length; i++) {
         ids.push(this.selectedUsers[i].id);
       }
 
       this.$inertia.visit(route("users.delete-multiple"), {
         method: "post",
-        data: {ids: ids},
+        data: { ids: ids },
         preserveState: true,
         preserveScroll: true,
         onSuccess: () => {
@@ -307,5 +307,4 @@ export default {
     margin-bottom: 0.25rem;
   }
 }
-
 </style>
