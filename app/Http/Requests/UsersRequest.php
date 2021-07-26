@@ -25,11 +25,11 @@ class UsersRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'     => 'required|string|between:3,100',
-            'email'    => ['required', 'email', Rule::unique('users')->ignore($this->id)],
-            'password' => 'nullable|between:6,30',
-            'profile'  => ['required', Rule::in(config('labels.user_profiles'))],
-            'image'    => 'nullable|image|file'
+            'name'       => 'required|string|between:3,100',
+            'email'      => ['required', 'email', Rule::unique('users')->ignore($this->id)],
+            'password'   => 'nullable|between:6,30',
+            'profile'    => ['required', Rule::in(config('labels.user_profiles'))],
+            'image_file' => 'nullable|image|file'
         ];
     }
 }

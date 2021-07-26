@@ -75,3 +75,17 @@
     }
   }
 }
+
+.custom-input-file::file-selector-button {
+  border: 1px solid #999;
+  padding: 0.6em;
+  border-radius: 0.2em;
+  background: linear-gradient(to bottom, #000 0%, #555 50%, #000 100%);
+  color: #ddd;
+  transition: 1s;
+  cursor: pointer;
+}
+
+.custom-input-file::file-selector-button:hover {
+  background: linear-gradient(to bottom, #f0563d 0%, #000 50%, #f0563d 100%);
+}

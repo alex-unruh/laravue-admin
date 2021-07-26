@@ -23,16 +23,6 @@ class UsersController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -41,33 +31,15 @@ class UsersController extends Controller
     public function store(UsersRequest $request)
     {
         $form = $request->validated();
-        $path = $request->file('image')->store('public');
         $user = new User();
         $user->fill($form);
-        $user->image = str_replace('public/', '', $path);
+        if ($request->file('image_file')) {
+            $path = $request->file('image_file')->store('public');
+            $user->image = str_replace('public/', '', $path);
+        }
+
         $user->save();
         return redirect()->back()->with('success', 'Successfully registered user!');
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
     }
 
     /**
@@ -82,9 +54,9 @@ class UsersController extends Controller
         $form = $request->validated();
 
         $user->fill($form);
-        if ($user->image) {
+        if ($request->file('image_file')) {
             Storage::delete('public/' . $user->image);
-            $path = $request->file('image')->store('public');
+            $path = $request->file('image_file')->store('public');
             $user->image = str_replace('public/', '', $path);
         }
 
@@ -100,6 +72,37 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->delete($id);
+        return redirect()->back()->with('success', 'Successfully deleted user!');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
+    public function multipleDestroy(Request $request)
+    {
+        $ids = $request->ids;
+        foreach($ids as $id){
+            $this->delete($id);
+        }
+        return redirect()->back()->with('success', 'Successfully deleted users!');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $id
+     * @return void
+     */
+    private function delete($id)
+    {
+        $user = User::find($id);
+        if ($user->image) {
+            $file_name = str_replace('storage/', 'public/', $user->image);
+            Storage::delete($file_name);
+        }
+        $user->delete();
     }
 }

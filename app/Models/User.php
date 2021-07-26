@@ -78,4 +78,19 @@ class User extends Authenticatable
         $profiles = config('labels.user_profiles');
         return $profiles[$profile];
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $image
+     * @return void
+     */
+    public function getImageAttribute($image)
+    {
+        if($image && !empty($image) && file_exists('storage/' . $image)){
+            return 'storage/' . $image;
+        }
+
+        return 'images/user.png';
+    }
 }

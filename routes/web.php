@@ -21,6 +21,8 @@ Route::get('/', function () {
 Route::get('/users', [UsersController::class, 'index'])->name('users');
 Route::post('/users/store', [UsersController::class, 'store'])->name('users.store');
 Route::post('/users/update/{user}', [UsersController::class, 'update'])->name('users.update');
+Route::post('/users/delete/{user}', [UsersController::class, 'destroy'])->name('users.delete');
+Route::post('/users/delete-multiple', [UsersController::class, 'multipleDestroy'])->name('users.delete-multiple');
 
 Route::get('/media', [MediaController::class, 'index'])->name('media');
 Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
