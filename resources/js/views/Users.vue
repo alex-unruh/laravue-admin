@@ -75,7 +75,7 @@
 
         <Dialog v-model:visible="UserDialog" :style="{ width: '500px' }" :header="dialogLabel" :modal="true" class="p-fluid">
           <form @submit.prevent="submit">
-            <img :src="form.image" :alt="form.image" class="user-image" v-if="form.image && isUpdate" />
+            <img :src="form.image" :alt="form.image" class="user-image" v-if="form.image" />
 
             <div class="p-field">
               <label for="name">Name</label>
@@ -226,6 +226,8 @@ export default {
     },
     onUserImageChange(event) {
       this.form.image_file = event.target.files[0];
+      this.form.image = URL.createObjectURL(event.target.files[0]);
+      console.log(this.form.image_file);
     },
     exportCSV() {
       this.$refs.dt.exportCSV();
