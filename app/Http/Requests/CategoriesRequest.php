@@ -29,7 +29,7 @@ class CategoriesRequest extends FormRequest
             'slug'        => ['required', 'string', Rule::unique('categories', 'slug')->ignore($this->id)],
             'parent'      => 'required|exists:categories,id',
             'description' => 'nullable|string|between:5,255',
-            'image'       => 'nullable|string|between:4,200'
+            'image_file'  => 'nullable|image|file|dimensions:max_width=1920,max_height=1080'
         ];
     }
 }

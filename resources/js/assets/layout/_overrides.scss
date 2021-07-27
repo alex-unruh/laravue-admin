@@ -82,10 +82,10 @@
   border-radius: 0.2em;
   background: linear-gradient(to bottom, #000 0%, #555 50%, #000 100%);
   color: #ddd;
-  transition: 1s;
   cursor: pointer;
 }
 
 .custom-input-file::file-selector-button:hover {
-  background: linear-gradient(to bottom, #f0563d 0%, #000 50%, #f0563d 100%);
+  background: linear-gradient(to bottom, #333 0%, #000 50%, #333 100%);
+  transition: 0.4s all linear;
 }

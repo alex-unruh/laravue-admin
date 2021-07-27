@@ -3,6 +3,7 @@
     <inertia-head title="Error" />
     <div style="text-align: center">
       <h1>{{ title }}</h1>
+      <div>{{ description }}</div>
     </div>
   </div>
 </template>

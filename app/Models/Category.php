@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $guarded = [];
+    protected $fillable = ["name", "slug", "parent", "description"];
 
     /**
      * Undocumented function
@@ -40,5 +40,20 @@ class Category extends Model
     public function posts()
     {
         return $this->belongsToMany('App\Models\Posts');
+    }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $image
+     * @return void
+     */
+    public function getImageAttribute($image)
+    {
+        if($image && !empty($image) && file_exists('storage/' . $image)){
+            return 'storage/' . $image;
+        }
+
+        return 'images/user.png';
     }
 }

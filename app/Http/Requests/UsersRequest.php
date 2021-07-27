@@ -27,9 +27,21 @@ class UsersRequest extends FormRequest
         return [
             'name'       => 'required|string|between:3,100',
             'email'      => ['required', 'email', Rule::unique('users')->ignore($this->id)],
-            'password'   => 'nullable|between:6,30',
+            'password'   => 'required_without:id|between:6,30',
             'profile'    => ['required', Rule::in(config('labels.user_profiles'))],
             'image_file' => 'nullable|image|file'
+        ];
+    }
+
+    /**
+     * Customize error messages
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'password.required_without' => 'The password is required on create users',
         ];
     }
 }

@@ -20,52 +20,24 @@
         <DataTable ref="dt" :value="users" v-model:selection="selectedUsers" dataKey="id" :paginator="true" :rows="10" :filters="filters" :globalFilterFields="['name', 'email', 'profile']" filterDisplay="menu" paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown" :rowsPerPageOptions="[5, 10, 25]" currentPageReportTemplate="Showing {first} to {last} of {totalRecords} users" responsiveLayout="scroll">
           <template #header>
             <div class="table-header p-d-flex p-flex-column p-flex-md-row p-jc-md-between">
-              <h5 class="p-m-0">Manage Users</h5>
+              <h5 class="p-m-0">Manage users</h5>
               <span class="p-input-icon-left">
                 <i class="pi pi-search" />
                 <InputText v-model="filters['global'].value" placeholder="Search..." />
               </span>
             </div>
           </template>
-
           <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-
           <Column header="Image">
             <template #body="slotProps">
-              <span class="p-column-title">Image</span>
               <img :src="slotProps.data.image" :alt="slotProps.data.image" class="user-image" />
             </template>
           </Column>
-
-          <Column field="id" header="Id" :sortable="true">
-            <template #body="slotProps">
-              <span class="p-column-title">Id</span>
-              {{ slotProps.data.id }}
-            </template>
-          </Column>
-
-          <Column field="name" header="Name" :sortable="true">
-            <template #body="slotProps">
-              <span class="p-column-title">Name</span>
-              {{ slotProps.data.name }}
-            </template>
-          </Column>
-
-          <Column field="email" header="E-mail" :sortable="true">
-            <template #body="slotProps">
-              <span class="p-column-title">Email</span>
-              {{ slotProps.data.email }}
-            </template>
-          </Column>
-
-          <Column field="profile" header="Profile" :sortable="true">
-            <template #body="slotProps">
-              <span class="p-column-title">Profile</span>
-              {{ slotProps.data.profile }}
-            </template>
-          </Column>
-
-          <Column>
+          <Column field="id" header="Id" :sortable="true" />
+          <Column field="name" header="Name" :sortable="true" />
+          <Column field="email" header="E-mail" :sortable="true" />
+          <Column field="profile" header="Profile" :sortable="true" />
+          <Column header="Manage">
             <template #body="slotProps">
               <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editUser(slotProps.data)" />
               <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteUser(slotProps.data)" />
@@ -85,13 +57,13 @@
 
             <div class="p-field">
               <label for="email">Email</label>
-              <input type="text" class="p-inputtext p-component" name="email" id="email" v-model.trim="form.email" required="true" autofocus :class="{ 'p-invalid': errors.email }" />
+              <input type="text" class="p-inputtext p-component" name="email" id="email" v-model.trim="form.email" required="true" :class="{ 'p-invalid': errors.email }" />
               <small class="p-invalid" v-if="errors.email">{{ errors.email }}</small>
             </div>
 
             <div class="p-field">
               <label for="password">Password</label>
-              <Password id="password" v-model.trim="form.password" :required="!isUpdate" autofocus :class="{ 'p-invalid': errors.password }" />
+              <Password id="password" v-model.trim="form.password" :required="!isUpdate" :class="{ 'p-invalid': errors.password }" />
               <small class="p-invalid" v-if="errors.password">{{ errors.password }}</small>
             </div>
 
@@ -210,7 +182,7 @@ export default {
         onSuccess: () => {
           this.UserDialog = false;
           this.$toast.add({ severity: "success", summary: "Success", detail: "User created", life: 3000 });
-        },
+        }
       });
     },
     deleteUser() {
@@ -263,7 +235,7 @@ export default {
 }
 
 .user-image {
-  width: 60px;
+  width: 50px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 }
 
@@ -277,30 +249,6 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.user-badge {
-  border-radius: 2px;
-  padding: 0.25em 0.5rem;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 12px;
-  letter-spacing: 0.3px;
-
-  &.status-instock {
-    background: #c8e6c9;
-    color: #256029;
-  }
-
-  &.status-outofstock {
-    background: #ffcdd2;
-    color: #c63737;
-  }
-
-  &.status-lowstock {
-    background: #feedaf;
-    color: #8a5340;
-  }
 }
 
 ::v-deep(.p-toolbar) {
