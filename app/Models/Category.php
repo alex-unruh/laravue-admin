@@ -54,6 +54,6 @@ class Category extends Model
             return 'storage/' . $image;
         }
 
-        return 'images/user.png';
+        return 'images/no-image.png';
     }
 }

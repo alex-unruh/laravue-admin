@@ -18,7 +18,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $data['categories'] = Category::select('id', 'name', 'slug', 'parent', 'description', 'image')->get();
+        $data['categories'] = Category::select('id', 'name', 'slug', 'description', 'image')->get();
         return Inertia::render('Categories', $data);
     }
 
@@ -34,6 +34,8 @@ class CategoriesController extends Controller
         $form = $request->validated();
         $category = new Category();
         $category->fill($form);
+        $category->parent = $form['parent'] ?? 1;
+
         if ($request->file('image_file')) {
             $path = $request->file('image_file')->store('public');
             $category->image = str_replace('public/', '', $path);
@@ -99,6 +101,9 @@ class CategoriesController extends Controller
      */
     private function delete($id)
     {
+        if ((int)$id === 1) {
+            return;
+        }
         $category = Category::find($id);
         if ($category->image) {
             $file_name = str_replace('storage/', 'public/', $category->image);
@@ -117,7 +122,7 @@ class CategoriesController extends Controller
     {
         $slug = Str::slug($request->name, '-');
         $increment = 1;
-        while (Category::where('slug', $slug)->get()->count() > 0) {
+        while (Category::where('id', '!=', $request->id)->where('slug', $slug)->get()->count() > 0) {
             $slug .= '-' . $increment;
         }
 

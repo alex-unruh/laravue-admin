@@ -221,6 +221,7 @@ export default {
         onSuccess: () => {
           this.deleteUsersDialog = false;
           this.$toast.add({ severity: "success", summary: "Success", detail: "Users deleted", life: 3000 });
+          this.selectedUsers = null;
         },
       });
     },

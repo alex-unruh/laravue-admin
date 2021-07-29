@@ -36,12 +36,11 @@
           <Column field="id" header="Id" :sortable="true" />
           <Column field="name" header="Name" :sortable="true" />
           <Column field="slug" header="Slug" :sortable="true" />
-          <Column field="parent" header="Parent" :sortable="true" />
           <Column field="description" header="Description" :sortable="true" />
           <Column header="Manage">
             <template #body="slotProps">
-              <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editCategory(slotProps.data)" />
-              <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteCategory(slotProps.data)" />
+              <Button icon="pi pi-pencil" class="p-button-rounded p-button-success p-mr-2" @click="editCategory(slotProps.data)" v-if="slotProps.data.slug !== 'main'" />
+              <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteCategory(slotProps.data)" v-if="slotProps.data.slug !== 'main'" />
             </template>
           </Column>
         </DataTable>
@@ -70,14 +69,14 @@
 
             <div class="p-field">
               <label for="profile">Parent Category</label>
-              <Dropdown v-model="form.parent" :options="categories" optionLabel="name" optionValue="id" placeholder="Select a parent" />
+              <Dropdown v-model="selectedParent" :options="parents" optionLabel="name" optionValue="id" filter="true" filterPlaceholder="Search..." placeholder="Select a parent" />
               <small class="p-invalid" v-if="errors.parent">{{ errors.parent }}</small>
             </div>
 
             <div class="p-field">
               <label for="profile">Category Image</label><br />
               <input type="file" name="image" @change="onCategoryImageChange" accept="image/*" class="custom-input-file" /><br />
-              <small class="p-invalid" v-if="errors.image">{{ errors.image }}</small>
+              <small class="p-invalid" v-if="errors.image_file">{{ errors.image_file }}</small>
             </div>
           </form>
 
@@ -122,21 +121,21 @@ export default {
   layout: Layout,
   props: {
     categories: Array,
-    errors: Object
+    errors: Object,
   },
   data() {
     return {
       title: "Categories",
       icon: "pi pi-fw pi-list",
       breadcrumb: [{ label: "Categories", route: "categories" }],
-      dialogLabel: null,
-      isUdpate: false,
+      isUpdate: false,
       CategoryDialog: false,
       deleteCategoryDialog: false,
       deleteCategoriesDialog: false,
       selectedCategories: null,
       filters: { global: { value: null } },
       submitted: false,
+      selectedParent: 1,
       form: this.$inertia.form({
         id: null,
         name: null,
@@ -148,26 +147,41 @@ export default {
       }),
     };
   },
+  computed: {
+    parents() {
+      let parents = [];
+      for (let i = 0; i < this.categories.length; i++) {
+        if (this.categories[i].id != this.form.id) {
+          parents.push(this.categories[i]);
+        }
+      }
+      return parents;
+    },
+    dialogLabel(){
+      return this.isUpdate ? 'Edit Category' : 'New Category';
+    }
+  },
   methods: {
-    getSlug(){
-      this.$inertia.visit(route('categories.get-slug'), {
-        method: 'post',
-        data: {name: this.form.name},
+    getSlug() {
+      this.$inertia.visit(route("categories.get-slug"), {
+        method: "post",
+        data: { name: this.form.name, id: this.form.id },
         preserveState: true,
         preserveScroll: true,
         replace: true,
-        onSuccess: () => { this.form.slug = this.$page.props.flash.data }
+        onSuccess: () => {
+          this.form.slug = this.$page.props.flash.data;
+        },
       });
     },
     openNew() {
+      this.parents = this.categories;
       this.form = {};
       this.isUpdate = false;
-      this.dialogLabel = "New category";
       this.submitted = false;
       this.CategoryDialog = true;
     },
     editCategory(category) {
-      this.dialogLabel = "Edit category";
       this.form = { ...category };
       this.isUpdate = true;
       this.CategoryDialog = true;
@@ -231,6 +245,7 @@ export default {
         onSuccess: () => {
           this.deleteCategoriesDialog = false;
           this.$toast.add({ severity: "success", summary: "Success", detail: "Categories deleted", life: 3000 });
+          this.selectedCategories = null;
         },
       });
     },
