@@ -51,9 +51,9 @@ class Category extends Model
     public function getImageAttribute($image)
     {
         if($image && !empty($image) && file_exists('storage/' . $image)){
-            return 'storage/' . $image;
+            return $image;
         }
 
-        return 'images/no-image.png';
+        return 'no-image.png';
     }
 }

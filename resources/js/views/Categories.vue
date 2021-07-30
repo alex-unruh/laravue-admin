@@ -30,7 +30,7 @@
           <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
           <Column header="Image">
             <template #body="slotProps">
-              <img :src="slotProps.data.image" :alt="slotProps.data.image" class="category-image" />
+              <img :src="'storage/thumbs/' + slotProps.data.image" :alt="slotProps.data.image" class="category-image" />
             </template>
           </Column>
           <Column field="id" header="Id" :sortable="true" />
@@ -47,7 +47,7 @@
 
         <Dialog v-model:visible="CategoryDialog" :style="{ width: '500px' }" :header="dialogLabel" :modal="true" class="p-fluid">
           <form @submit.prevent="submit">
-            <img :src="form.image" :alt="form.image" class="category-image" v-if="form.image" />
+            <img :src="isUpdate && !changeImage ? 'storage/medium/' + form.image : form.image" :alt="form.image" class="category-image" v-if="form.image" />
 
             <div class="p-field">
               <label for="name">Name</label>
@@ -69,7 +69,7 @@
 
             <div class="p-field">
               <label for="profile">Parent Category</label>
-              <Dropdown v-model="selectedParent" :options="parents" optionLabel="name" optionValue="id" filter="true" filterPlaceholder="Search..." placeholder="Select a parent" />
+              <Dropdown v-model="selectedParent" :options="parents" optionLabel="name" optionValue="id" :filter="true" filterPlaceholder="Search..." placeholder="Select a parent" />
               <small class="p-invalid" v-if="errors.parent">{{ errors.parent }}</small>
             </div>
 
@@ -129,6 +129,7 @@ export default {
       icon: "pi pi-fw pi-list",
       breadcrumb: [{ label: "Categories", route: "categories" }],
       isUpdate: false,
+      changeImage: false,
       CategoryDialog: false,
       deleteCategoryDialog: false,
       deleteCategoriesDialog: false,
@@ -149,6 +150,9 @@ export default {
   },
   computed: {
     parents() {
+      if(!this.isUpdate) {
+        return this.categories;
+      }
       let parents = [];
       for (let i = 0; i < this.categories.length; i++) {
         if (this.categories[i].id != this.form.id) {
@@ -175,13 +179,14 @@ export default {
       });
     },
     openNew() {
-      this.parents = this.categories;
+      this.changeImage = false;
       this.form = {};
       this.isUpdate = false;
       this.submitted = false;
       this.CategoryDialog = true;
     },
     editCategory(category) {
+      this.changeImage = false;
       this.form = { ...category };
       this.isUpdate = true;
       this.CategoryDialog = true;
@@ -221,6 +226,7 @@ export default {
       });
     },
     onCategoryImageChange(event) {
+      this.changeImage = true;
       this.form.image_file = event.target.files[0];
       this.form.image = URL.createObjectURL(event.target.files[0]);
       console.log(this.form.image_file);

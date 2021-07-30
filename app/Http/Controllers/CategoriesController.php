@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Traits\WithImages;
 use Inertia\Inertia;
 use App\Models\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\CategoriesRequest;
 
 class CategoriesController extends Controller
 {
+
+    use WithImages;
+
     /**
      * Display a listing of the resource.
      *
@@ -37,8 +40,8 @@ class CategoriesController extends Controller
         $category->parent = $form['parent'] ?? 1;
 
         if ($request->file('image_file')) {
-            $path = $request->file('image_file')->store('public');
-            $category->image = str_replace('public/', '', $path);
+            $image_name = $this->storeImage($request->file('image_file'));
+            $category->image = $image_name;
         }
 
         $category->save();
@@ -58,9 +61,9 @@ class CategoriesController extends Controller
 
         $category->fill($form);
         if ($request->file('image_file')) {
-            Storage::delete('public/' . $category->image);
-            $path = $request->file('image_file')->store('public');
-            $category->image = str_replace('public/', '', $path);
+            $this->deleteImage($category->image);
+            $image_name = $this->storeImage($request->file('image_file'));
+            $category->image = $image_name;
         }
 
         $category->save();
@@ -107,7 +110,7 @@ class CategoriesController extends Controller
         $category = Category::find($id);
         if ($category->image) {
             $file_name = str_replace('storage/', 'public/', $category->image);
-            Storage::delete($file_name);
+            $this->deleteImage($file_name);
         }
         $category->delete();
     }
