@@ -9,6 +9,9 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoriesRequest;
 
+/**
+ * Undocumented class
+ */
 class CategoriesController extends Controller
 {
 
@@ -38,12 +41,10 @@ class CategoriesController extends Controller
         $category = new Category();
         $category->fill($form);
         $category->parent = $form['parent'] ?? 1;
-
         if ($request->file('image_file')) {
             $image_name = $this->storeImage($request->file('image_file'));
             $category->image = $image_name;
         }
-
         $category->save();
         return redirect()->back()->with('success', 'Successfully registered category!');
     }
@@ -65,7 +66,6 @@ class CategoriesController extends Controller
             $image_name = $this->storeImage($request->file('image_file'));
             $category->image = $image_name;
         }
-
         $category->save();
         return redirect()->back()->with('success', 'Successfully registered category!');
     }
@@ -128,7 +128,6 @@ class CategoriesController extends Controller
         while (Category::where('id', '!=', $request->id)->where('slug', $slug)->get()->count() > 0) {
             $slug .= '-' . $increment;
         }
-
         return redirect()->back()->with('data', $slug);
     }
 }

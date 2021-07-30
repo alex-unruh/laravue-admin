@@ -6,10 +6,15 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Requests\UsersRequest;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\Traits\WithImages;
 
+/**
+ * Undocumented class
+ */
 class UsersController extends Controller
 {
+
+    use WithImages;
 
     /**
      * Display a listing of the resource.
@@ -34,10 +39,9 @@ class UsersController extends Controller
         $user = new User();
         $user->fill($form);
         if ($request->file('image_file')) {
-            $path = $request->file('image_file')->store('public');
-            $user->image = str_replace('public/', '', $path);
+            $image_name = $this->storeImage($request->file('image_file'));
+            $user->image = $image_name;
         }
-
         $user->save();
         return redirect()->back()->with('success', 'Successfully registered user!');
     }
@@ -52,14 +56,12 @@ class UsersController extends Controller
     public function update(UsersRequest $request, User $user)
     {
         $form = $request->validated();
-
         $user->fill($form);
         if ($request->file('image_file')) {
-            Storage::delete('public/' . $user->image);
-            $path = $request->file('image_file')->store('public');
-            $user->image = str_replace('public/', '', $path);
+            $this->deleteImage($user->image);
+            $image_name = $this->storeImage($request->file('image_file'));
+            $user->image = $image_name;
         }
-
         $user->save();
         return redirect()->back()->with('success', 'Successfully registered user!');
     }
@@ -84,7 +86,7 @@ class UsersController extends Controller
     public function multipleDestroy(Request $request)
     {
         $ids = $request->ids;
-        foreach($ids as $id){
+        foreach ($ids as $id) {
             $this->delete($id);
         }
         return redirect()->back()->with('success', 'Successfully deleted users!');
@@ -101,7 +103,7 @@ class UsersController extends Controller
         $user = User::find($id);
         if ($user->image) {
             $file_name = str_replace('storage/', 'public/', $user->image);
-            Storage::delete($file_name);
+            $this->deleteImage($file_name);
         }
         $user->delete();
     }

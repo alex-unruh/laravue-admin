@@ -30,7 +30,7 @@
           <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
           <Column header="Image">
             <template #body="slotProps">
-              <img :src="slotProps.data.image" :alt="slotProps.data.image" class="user-image" />
+              <img :src="'storage/thumbs/' + slotProps.data.image" :alt="slotProps.data.image" class="user-image" />
             </template>
           </Column>
           <Column field="id" header="Id" :sortable="true" />
@@ -47,7 +47,7 @@
 
         <Dialog v-model:visible="UserDialog" :style="{ width: '500px' }" :header="dialogLabel" :modal="true" class="p-fluid">
           <form @submit.prevent="submit">
-            <img :src="form.image" :alt="form.image" class="user-image" v-if="form.image" />
+            <img :src="isUpdate && !changeImage ? 'storage/medium/' + form.image : form.image" :alt="form.image" class="user-image" v-if="form.image" />
 
             <div class="p-field">
               <label for="name">Name</label>
@@ -129,6 +129,7 @@ export default {
       icon: "pi pi-fw pi-users",
       breadcrumb: [{ label: "Users", route: "users" }],
       dialogLabel: null,
+      changeImage: false,
       isUdpate: false,
       UserDialog: false,
       deleteUserDialog: false,
@@ -150,6 +151,7 @@ export default {
   },
   methods: {
     openNew() {
+      this.changeImage = false;
       this.form = {};
       this.isUpdate = false;
       this.dialogLabel = "New User";
@@ -157,6 +159,7 @@ export default {
       this.UserDialog = true;
     },
     editUser(user) {
+      this.changeImage = false;
       this.dialogLabel = "Edit User";
       this.form = { ...user };
       this.isUpdate = true;
@@ -197,6 +200,7 @@ export default {
       });
     },
     onUserImageChange(event) {
+      this.changeImage = true;
       this.form.image_file = event.target.files[0];
       this.form.image = URL.createObjectURL(event.target.files[0]);
       console.log(this.form.image_file);
