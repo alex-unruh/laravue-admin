@@ -32,8 +32,16 @@ Route::post('/categories/update/{category}', [CategoriesController::class, 'upda
 Route::post('/categories/delete/{category}', [CategoriesController::class, 'destroy'])->name('categories.delete');
 Route::post('/categories/delete-multiple', [CategoriesController::class, 'multipleDestroy'])->name('categories.delete-multiple');
 
-Route::get('/media', [MediaController::class, 'index'])->name('media');
+// Posts
 Route::get('/posts', [PostsController::class, 'index'])->name('posts');
+Route::get('/create', [PostsController::class, 'create'])->name('posts.create');
+Route::post('/posts/get-slug', [PostsController::class, 'getSlug'])->name('posts.get-slug');
+
+// Settings
 Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
 Route::post('/settings', [SettingsController::class, 'store'])->name('settings.store');
 Route::post('/change-logo', [SettingsController::class, 'changeLogo'])->name('change.logo');
+
+Route::get('/media', [MediaController::class, 'index'])->name('media');
+
+

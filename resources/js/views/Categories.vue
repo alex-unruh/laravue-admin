@@ -47,23 +47,23 @@
 
         <Dialog v-model:visible="CategoryDialog" :style="{ width: '500px' }" :header="dialogLabel" :modal="true" class="p-fluid">
           <form @submit.prevent="submit">
-            <img :src="isUpdate && !changeImage ? 'storage/medium/' + form.image : form.image" :alt="form.image" class="category-image" v-if="form.image" />
+            <img :src="categoryImage" :alt="form.image" class="category-image" v-if="form.image" />
 
             <div class="p-field">
               <label for="name">Name</label>
-              <input type="text" class="p-inputtext p-component" @blur="getSlug" name="name" id="name" v-model.trim="form.name" required="true" autofocus :class="{ 'p-invalid': errors.name }" />
+              <InputText type="text" @blur="getSlug" id="name" v-model.trim="form.name" autofocus :class="{ 'p-invalid': errors.name }" />
               <small class="p-invalid" v-if="errors.name">{{ errors.name }}</small>
             </div>
 
             <div class="p-field">
               <label for="slug">Slug</label>
-              <input type="text" class="p-inputtext p-component" name="slug" id="slug" disabled="true" v-model.trim="form.slug" required="true" :class="{ 'p-invalid': errors.slug }" />
+              <InputText type="text" id="slug" disabled="true" v-model.trim="form.slug" :class="{ 'p-invalid': errors.slug }" />
               <small class="p-invalid" v-if="errors.slug">{{ errors.slug }}</small>
             </div>
 
             <div class="p-field">
-              <label for="slug">Description</label>
-              <textarea class="p-inputtext p-component" name="description" id="description" v-model.trim="form.description" :class="{ 'p-invalid': errors.description }" />
+              <label for="description">Description</label>
+              <Textarea id="description" v-model.trim="form.description" :class="{ 'p-invalid': errors.description }" />
               <small class="p-invalid" v-if="errors.description">{{ errors.description }}</small>
             </div>
 
@@ -163,6 +163,9 @@ export default {
     },
     dialogLabel(){
       return this.isUpdate ? 'Edit Category' : 'New Category';
+    },
+    categoryImage(){
+      return this.isUpdate && !this.changeImage ? 'storage/medium/' + this.form.image : this.form.image;
     }
   },
   methods: {
@@ -229,7 +232,6 @@ export default {
       this.changeImage = true;
       this.form.image_file = event.target.files[0];
       this.form.image = URL.createObjectURL(event.target.files[0]);
-      console.log(this.form.image_file);
     },
     exportCSV() {
       this.$refs.dt.exportCSV();

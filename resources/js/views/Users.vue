@@ -47,17 +47,17 @@
 
         <Dialog v-model:visible="UserDialog" :style="{ width: '500px' }" :header="dialogLabel" :modal="true" class="p-fluid">
           <form @submit.prevent="submit">
-            <img :src="isUpdate && !changeImage ? 'storage/medium/' + form.image : form.image" :alt="form.image" class="user-image" v-if="form.image" />
+            <img :src="userImage" :alt="form.image" class="user-image" v-if="form.image" />
 
             <div class="p-field">
               <label for="name">Name</label>
-              <input type="text" class="p-inputtext p-component" name="name" id="name" v-model.trim="form.name" required="true" autofocus :class="{ 'p-invalid': errors.name }" />
+              <InputText type="text" id="name" v-model.trim="form.name" autofocus :class="{ 'p-invalid': errors.name }" />
               <small class="p-invalid" v-if="errors.name">{{ errors.name }}</small>
             </div>
 
             <div class="p-field">
               <label for="email">Email</label>
-              <input type="text" class="p-inputtext p-component" name="email" id="email" v-model.trim="form.email" required="true" :class="{ 'p-invalid': errors.email }" />
+              <InputText type="text" id="email" v-model.trim="form.email" :class="{ 'p-invalid': errors.email }" />
               <small class="p-invalid" v-if="errors.email">{{ errors.email }}</small>
             </div>
 
@@ -149,6 +149,11 @@ export default {
       }),
     };
   },
+  computed: {
+    userImage() {
+      return this.isUpdate && !this.changeImage ? "storage/medium/" + this.form.image : this.form.image;
+    },
+  },
   methods: {
     openNew() {
       this.changeImage = false;
@@ -185,7 +190,7 @@ export default {
         onSuccess: () => {
           this.UserDialog = false;
           this.$toast.add({ severity: "success", summary: "Success", detail: "User created", life: 3000 });
-        }
+        },
       });
     },
     deleteUser() {

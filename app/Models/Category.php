@@ -13,21 +13,9 @@ class Category extends Model
     /**
      * Undocumented function
      *
-     * @param [type] $value
      * @return void
      */
-    public function setNameAttribute($value)
-    {
-        $this->attributes['name'] = $value;
-        $this->attributes['slug'] = Str::slug($value, '-');
-    }
-
-    /**
-     * Undocumented function
-     *
-     * @return void
-     */
-    public function mother()
+    public function parent()
     {
         return $this->hasOne('App\Models\Category', 'id', 'parent');
     }
@@ -45,12 +33,24 @@ class Category extends Model
     /**
      * Undocumented function
      *
+     * @param [type] $value
+     * @return void
+     */
+    public function setNameAttribute($value)
+    {
+        $this->attributes['name'] = $value;
+        $this->attributes['slug'] = Str::slug($value, '-');
+    }
+
+    /**
+     * Undocumented function
+     *
      * @param [type] $image
      * @return void
      */
     public function getImageAttribute($image)
     {
-        if($image && !empty($image) && file_exists('storage/' . $image)){
+        if ($image && !empty($image) && file_exists('storage/' . $image)) {
             return $image;
         }
 

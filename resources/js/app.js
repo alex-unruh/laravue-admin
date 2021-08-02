@@ -40,6 +40,9 @@ import Textarea from "primevue/textarea";
 import InputNumber from "primevue/inputnumber";
 import Rating from "primevue/rating";
 import Password from "primevue/password";
+import Card from "primevue/card";
+import Editor from 'primevue/editor';
+import Checkbox from 'primevue/checkbox';
 
 InertiaProgress.init();
 
@@ -73,6 +76,9 @@ createInertiaApp({
       .component("InputNumber", InputNumber)
       .component("Rating", Rating)
       .component("Password", Password)
+      .component("Card", Card)
+      .component("Editor", Editor)
+      .component("Checkbox", Checkbox)
       .component("Button", Button);
 
     vue.config.globalProperties.$appState = reactive({

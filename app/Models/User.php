@@ -47,6 +47,16 @@ class User extends Authenticatable
     /**
      * Undocumented function
      *
+     * @return void
+     */
+    public function posts()
+    {
+        return $this->hasMany('App\Models\Post');
+    }
+
+    /**
+     * Undocumented function
+     *
      * @param [type] $password
      * @return void
      */
@@ -87,7 +97,7 @@ class User extends Authenticatable
      */
     public function getImageAttribute($image)
     {
-        if($image && !empty($image) && file_exists('storage/' . $image)){
+        if ($image && !empty($image) && file_exists('storage/' . $image)) {
             return $image;
         }
 

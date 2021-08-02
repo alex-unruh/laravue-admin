@@ -8,7 +8,8 @@
   background-color: #222;
 }
 
-.p-link:focus {
+.p-link:focus,
+.layout-menu li a:focus {
   box-shadow: none !important;
 }
 
@@ -88,4 +89,13 @@
 .custom-input-file::file-selector-button:hover {
   background: linear-gradient(to bottom, #333 0%, #000 50%, #333 100%);
   transition: 0.4s all linear;
+}
+
+.layout-sidebar-dark .layout-menu li a.router-link-active,
+.layout-sidebar-dark .layout-menu li a:hover {
+  color: #f0563d;
+}
+
+.p-card .p-inputtext, .p-card .p-inputtextarea, .p-card .p-dropdown	{
+  width: 100%;
 }
